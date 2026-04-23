@@ -2,9 +2,7 @@ import os
 import csv
 import json
 
-# ======================
-# CLASS 1 — FILE MANAGER
-# ======================
+
 class FileManager:
     def __init__(self, filename):
         self.filename = filename
@@ -27,9 +25,7 @@ class FileManager:
             print("Output folder already exists: output/")
 
 
-# ======================
-# CLASS 2 — DATA LOADER
-# ======================
+
 class DataLoader:
     def __init__(self, filename):
         self.filename = filename
@@ -64,9 +60,7 @@ class DataLoader:
         print("-" * 30)
 
 
-# ======================
-# CLASS 3 — DATA ANALYSER
-# ======================
+
 class DataAnalyser:
     def __init__(self, students):
         self.students = students
@@ -138,9 +132,7 @@ class DataAnalyser:
         print("------------------------------")
 
 
-# ======================
-# CLASS 4 — RESULT SAVER
-# ======================
+
 class ResultSaver:
     def __init__(self, result, output_path):
         self.result = result
@@ -157,9 +149,6 @@ class ResultSaver:
             print("Error saving file:", e)
 
 
-# ======================
-# MAIN
-# ======================
 if __name__ == "__main__":
     fm = FileManager('students.csv')
 
@@ -179,3 +168,4 @@ if __name__ == "__main__":
 
     saver = ResultSaver(analyser.result, 'output/result.json')
     saver.save_json()
+
