@@ -1,0 +1,43 @@
+{
+    "analysis": "Country Analysis",
+    "total_students": 10000,
+    "total_countries": 13,
+    "top_3_countries": [
+        {
+            "country": "Canada",
+            "count": 792
+        },
+        {
+            "country": "India",
+            "count": 792
+        },
+        {
+            "country": "Bangladesh",
+            "count": 789
+        }
+    ],
+    "all_countries": {
+        "Germany": 742,
+        "USA": 748,
+        "Canada": 792,
+        "Australia": 738,
+        "France": 751,
+        "Netherlands": 785,
+        "Japan": 775,
+        "Brazil": 780,
+        "Italy": 748,
+        "South Korea": 772,
+        "Bangladesh": 789,
+        "India": 792,
+        "UK": 788
+    },
+    "high_gpa_count": 6557,
+    "attendance_above_90": 5740,
+    "gpa_sample": [
+        3.81,
+        3.46,
+        4.0,
+        3.77,
+        4.0
+    ]
+}
