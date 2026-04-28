@@ -84,7 +84,7 @@ class DataAnalyser:
 
         top_3 = sorted(country_counts.items(), key=lambda x: x[1], reverse=True)[:3]
 
-        # lambda / filter / map
+
         high_gpa = list(filter(lambda s: float(s['GPA']) > 3.5, self.students))
         gpa_values = list(map(lambda s: float(s['GPA']), self.students))
 
