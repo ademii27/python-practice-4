@@ -13,7 +13,7 @@ class FileManager:
             print(f"File found: {self.filename}")
             return True
         else:
-            print(f"Error: {self.filename} not found.")
+            print(f"Error: {self.filename} not found. Please download the file from LMS.")
             return False
 
     def create_output_folder(self, folder='output'):
@@ -23,7 +23,6 @@ class FileManager:
             print("Output folder created: output/")
         else:
             print("Output folder already exists: output/")
-
 
 
 class DataLoader:
@@ -36,14 +35,13 @@ class DataLoader:
         try:
             with open(self.filename, encoding="utf-8") as file:
                 reader = csv.DictReader(file)
-                for row in reader:
-                    self.students.append(row)
+                self.students = list(reader)
 
             print(f"Data loaded successfully: {len(self.students)} students")
             return self.students
 
         except FileNotFoundError:
-            print(f"Error: File '{self.filename}' not found.")
+            print(f"Error: File '{self.filename}' not found. Please check the filename.")
             return []
 
         except Exception as e:
@@ -51,14 +49,14 @@ class DataLoader:
             return []
 
     def preview(self, n=5):
-        print("First", n, "rows:")
+        print(f"Total students: {len(self.students)}")
+        print("First 5 rows:")
         print("-" * 30)
 
         for s in self.students[:n]:
             print(f"{s['student_id']} | {s['age']} | {s['gender']} | {s['country']} | GPA: {s['GPA']}")
 
         print("-" * 30)
-
 
 
 class DataAnalyser:
@@ -69,29 +67,34 @@ class DataAnalyser:
     def analyse(self):
         country_counts = {}
 
+        high_gpa = []
+        gpa_values = []
+        good_attendance = []
+
         for s in self.students:
             try:
                 country = s["country"]
+                country_counts[country] = country_counts.get(country, 0) + 1
 
-                if country in country_counts:
-                    country_counts[country] += 1
-                else:
-                    country_counts[country] = 1
+                gpa = float(s["GPA"])
+                attendance = float(s["class_attendance_percent"])
 
-            except Exception:
-                print(f"Warning: skipping row {s.get('student_id', 'unknown')}")
+                gpa_values.append(gpa)
+
+                if gpa > 3.5:
+                    high_gpa.append(s)
+
+                if attendance > 90:
+                    good_attendance.append(s)
+
+            except ValueError:
+                print(f"Warning: could not convert value for student {s.get('student_id', 'unknown')} — skipping row.")
+                continue
+            except KeyError:
+                print(f"Warning: missing data in row {s.get('student_id', 'unknown')} — skipping row.")
                 continue
 
         top_3 = sorted(country_counts.items(), key=lambda x: x[1], reverse=True)[:3]
-
-
-        high_gpa = list(filter(lambda s: float(s['GPA']) > 3.5, self.students))
-        gpa_values = list(map(lambda s: float(s['GPA']), self.students))
-
-        good_attendance = list(filter(
-            lambda s: float(s['class_attendance_percent']) > 90,
-            self.students
-        ))
 
         self.result = {
             "analysis": "Country Analysis",
@@ -132,7 +135,6 @@ class DataAnalyser:
         print("------------------------------")
 
 
-
 class ResultSaver:
     def __init__(self, result, output_path):
         self.result = result
@@ -168,4 +170,3 @@ if __name__ == "__main__":
 
     saver = ResultSaver(analyser.result, 'output/result.json')
     saver.save_json()
-
